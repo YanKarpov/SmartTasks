@@ -33,12 +33,11 @@
 Перед запуском приложения установите необходимые зависимости:
 1. **Tkinter** (обычно предустановлен с Python):
    ```bash
-   sudo apt-get install python3-tk  # Для Ubuntu/Debia
+   pip install tkinter
 2. "ttkbootstrap"
    ```bash
    pip install ttkbootstrap
-
-
+   
 ### Основной функционал
 Для оценки основного функционала используйте исполняемый файл:
 SmartTasks.exe
