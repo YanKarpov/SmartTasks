@@ -1,18 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SmartTasks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #3178ae;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .task-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .task-item.completed {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+        .add-task-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .add-task-form input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .add-task-form button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #0c719f;
+            color: white;
+            cursor: pointer;
+        }
+        .add-task-form button:hover {
+            background-color: #1d9fc0;
+        }
+    </style>
 </head>
 <body>
-    <h1>SmartTasks</h1>
-    <ul>
-        {{range .}}
-        <li>{{.Title}} - {{if .Completed}}Выполнено{{else}}Не Выполнено{{end}}</li>
-        {{end}}
-    </ul>
-    <form action="/add" method="post">
-        <input type="text" name="title" placeholder="New task" required>
-        <button type="submit">Добавить задачу</button>
-    </form>
+    <header>
+        <h1>SmartTasks</h1>
+    </header>
+    <div class="container">
+        <ul class="task-list">
+            {{range .}}
+            <li class="task-item {{if .Completed}}completed{{end}}">
+                <span>{{.Title}}</span>
+                <a href="/complete?id={{.ID}}" class="complete-btn">{{if .Completed}}Выполнено{{else}}Отметить как выполненную{{end}}</a>
+            </li>
+            {{end}}
+        </ul>
+        <form action="/add" method="post" class="add-task-form">
+            <input type="text" name="title" placeholder="Новая задача" required>
+            <button type="submit">Добавить</button>
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const completeBtns = document.querySelectorAll('.complete-btn');
+            completeBtns.forEach(btn => {
+                btn.addEventListener('click', function (event) {
+                    if (!confirm('Вы уверены, что хотите отметить эту задачу как выполненную?')) {
+                        event.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
+
+
